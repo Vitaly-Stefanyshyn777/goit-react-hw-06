@@ -1,3 +1,4 @@
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import s from "./SearchBox.module.css";
 import { changeFilter } from "../../redux/filtersSlice";
@@ -5,22 +6,29 @@ import { changeFilter } from "../../redux/filtersSlice";
 const SearchBox = () => {
   const dispatch = useDispatch();
 
-  const handleSearchUser = (event) => {
-    const form = event.target;
+  const handleSearchUser = useCallback(
+    (event) => {
+      const value = event.target.value.trim().toLowerCase();
+      dispatch(changeFilter(value));
+    },
+    [dispatch]
+  );
 
-    dispatch(changeFilter(form.value.toLowerCase()));
-  };
   return (
     <div className={s.serchWrap}>
-      <label>
+      <label htmlFor="search" className={s.label}>
         Find contact by name
-        <input
-          className={s.serchInput}
-          type="text"
-          onChange={handleSearchUser}
-        />
       </label>
+      <input
+        id="search"
+        className={s.serchInput}
+        type="text"
+        placeholder="Type to search..."
+        onChange={handleSearchUser}
+        aria-label="Search contacts"
+      />
     </div>
   );
 };
-export default SearchBox;
+
+export default React.memo(SearchBox); // React.memo для оптимізації

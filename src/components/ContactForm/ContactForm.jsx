@@ -10,47 +10,58 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .min(3, "Minimum 3 characters")
     .max(50, "Maximum 50 characters")
-    .required("Must be filled"),
+    .required("Name is required"),
   number: Yup.string()
     .matches(/^\+?[1-9]\d{1,14}$/, "Invalid phone number")
-    .min(3, "Minimum 3 digits")
-    .max(50, "Maximum 50 digits")
-    .required("Must be filled"),
+    .required("Phone number is required"),
 });
 
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const handleForm = (values, actions) => {
+  const handleFormSubmit = (values, { resetForm }) => {
+
     dispatch(
       addContact({
         id: nanoid(),
-        name: values.name.trim().toLowerCase(),
-        number: values.number,
+        name: values.name.trim(),
+        number: values.number.trim(),
       })
     );
-    actions.resetForm();
+    resetForm();
   };
 
   return (
     <Formik
       initialValues={{ name: "", number: "" }}
-      onSubmit={handleForm}
+      onSubmit={handleFormSubmit}
       validationSchema={validationSchema}
     >
       <Form className={s.contactForm}>
-        <label>
+        <label htmlFor="name" className={s.label}>
           Name
-          <Field className={s.formInput} name="name" />
-          <ErrorMessage className={s.inputErr} name="name" component="p" />
+          <Field
+            id="name"
+            className={s.formInput}
+            name="name"
+            placeholder="Enter name"
+          />
+          <ErrorMessage name="name" component="p" className={s.inputError} />
         </label>
-        <label>
-          Number
-          <Field className={s.formInput} name="number" />
-          <ErrorMessage className={s.inputErr} name="number" component="p" />
+
+        <label htmlFor="number" className={s.label}>
+          Phone Number
+          <Field
+            id="number"
+            className={s.formInput}
+            name="number"
+            placeholder="Enter phone number"
+          />
+          <ErrorMessage name="number" component="p" className={s.inputError} />
         </label>
+
         <button className={s.formBtn} type="submit">
-          Add contact
+          Add Contact
         </button>
       </Form>
     </Formik>

@@ -1,23 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  filters: {
-    name: "",
-  },
+  name: "",
 };
 
-const slice = createSlice({
+const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
     changeFilter: (state, action) => {
-      state.filters.name = action.payload;
+      state.name = action.payload.trim().toLowerCase(); // Очищення пробілів і нормалізація
     },
   },
 });
 
-export const selectNameFilter = (state) => state.filters.filters.name;
+export const selectNameFilter = (state) => state.filters.name; // Спрощення доступу до фільтру
 
-export const filtersReducer = slice.reducer;
+export const filtersReducer = filtersSlice.reducer;
 
-export const { changeFilter } = slice.actions;
+export const { changeFilter } = filtersSlice.actions;
