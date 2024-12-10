@@ -2,16 +2,12 @@ import React from "react";
 import s from "./ContactList.module.css";
 import Contact from "../Contact/Contact";
 import { useSelector } from "react-redux";
-import { selectFilteredContacts } from "../../redux/contactsSlice"; 
+import { selectFilteredContacts } from "../../redux/contactsSlice";
 
 const ContactList = () => {
   const filteredContacts = useSelector(selectFilteredContacts);
 
-  if (!filteredContacts.length) {
-    return <p className={s.noContacts}>No contacts found.</p>; 
-  }
-
-  return (
+  return filteredContacts.length ? (
     <ul className={s.contactList}>
       {filteredContacts.map((user) => (
         <li className={s.contactItem} key={user.id}>
@@ -19,7 +15,7 @@ const ContactList = () => {
         </li>
       ))}
     </ul>
-  );
+  ) : null; // Нічого не відображається, якщо список порожній
 };
 
-export default React.memo(ContactList); 
+export default React.memo(ContactList);
