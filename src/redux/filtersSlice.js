@@ -9,12 +9,12 @@ const filtersSlice = createSlice({
   initialState,
   reducers: {
     changeFilter: (state, action) => {
-      state.name = action.payload.trim().toLowerCase(); // Очищення пробілів і нормалізація
+      state.name = action.payload.trim().toLowerCase(); 
     },
   },
 });
 
-export const selectNameFilter = (state) => state.filters.name; // Спрощення доступу до фільтру
+export const selectNameFilter = (state) => state.filters.name; 
 
 export const filtersReducer = filtersSlice.reducer;
 

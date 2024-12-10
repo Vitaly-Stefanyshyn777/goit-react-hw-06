@@ -31,4 +31,4 @@ const SearchBox = () => {
   );
 };
 
-export default React.memo(SearchBox); // React.memo для оптимізації
+export default React.memo(SearchBox);
